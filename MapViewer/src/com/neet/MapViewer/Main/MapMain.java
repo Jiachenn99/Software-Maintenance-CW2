@@ -12,7 +12,7 @@ public class MapMain extends Application {
 
     public static Stage primaryStage;
 
-    public static MapDraw tileMapViewer;
+    public static TileMapViewer tileMapViewer;
 
     public TilePane tileOverview;
 
@@ -32,7 +32,7 @@ public class MapMain extends Application {
     }
 
     public void setMapViewer() {
-        tileMapViewer = new MapDraw();
+        tileMapViewer = new TileMapViewer();
         tileMapViewer.drawMap("/Maps/testmap.map");
         tileMapViewer.loadImages("/Tilesets/testtileset.gif", "/Sprites/items.gif");
         FXMLLoader loader = new FXMLLoader();

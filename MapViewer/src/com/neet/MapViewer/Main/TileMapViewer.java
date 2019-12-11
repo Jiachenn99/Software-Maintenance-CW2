@@ -9,9 +9,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class MapDraw{
-    
-    public static String MAP_PATH = "/Maps/testmap.map";
+public class TileMapViewer{
 
     // Public methods
     public Canvas currentCanvas;

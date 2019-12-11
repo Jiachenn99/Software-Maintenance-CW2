@@ -20,6 +20,7 @@ import com.neet.DiamondHunter.Manager.GameStateManager;
 import com.neet.DiamondHunter.Manager.JukeBox;
 import com.neet.DiamondHunter.Manager.Keys;
 import com.neet.DiamondHunter.TileMap.TileMap;
+import com.neet.MapViewer.Main.MapMain;
 
 public class PlayState extends GameState {
 	
@@ -170,18 +171,37 @@ public class PlayState extends GameState {
 		
 	}
 	
+	// Variable itemPositionRecorder is used to store: boat row, boat column, axe row, axe column.
 	private void populateItems() {
 		
 		Item item;
 		
 		item = new Item(tileMap);
 		item.setType(Item.AXE);
-		item.setTilePosition(26, 37);
+		if (MapMain.viewerLaunch == false) {
+			item.setTilePosition(26, 37);
+		}
+		else if (MapMain.tileMapViewer.getAxeRow() == -1 && MapMain.tileMapViewer.getAxeCol() == -1) {
+			item.setTilePosition(26, 37);	
+		}
+		else {
+			item.setTilePosition(MapMain.tileMapViewer.getAxeRow(), MapMain.tileMapViewer.getAxeCol());
+		}
+		
 		items.add(item);
 		
 		item = new Item(tileMap);
 		item.setType(Item.BOAT);
-		item.setTilePosition(12, 4);
+		
+		if (MapMain.viewerLaunch == false) {
+			item.setTilePosition(12, 4);
+		}
+		else if (MapMain.tileMapViewer.getBoatRow() == -1 && MapMain.tileMapViewer.getBoatCol() == -1) {
+			item.setTilePosition(12, 4);	
+		}
+		else {
+			item.setTilePosition(MapMain.tileMapViewer.getBoatRow(), MapMain.tileMapViewer.getBoatCol());
+		}
 		items.add(item);
 		
 	}

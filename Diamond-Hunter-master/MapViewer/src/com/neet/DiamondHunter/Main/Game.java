@@ -12,7 +12,9 @@ public class Game {
 		
 		JFrame window = new JFrame("Diamond Hunter");
 		
-		window.add(new GamePanel(false));
+		window.add(new GamePanel());
+		
+		window.setResizable(false);
 		window.pack();
 		
 		window.setLocationRelativeTo(null);

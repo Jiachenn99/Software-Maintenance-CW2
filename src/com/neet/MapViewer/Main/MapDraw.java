@@ -20,7 +20,12 @@ public class MapDraw{
     public boolean cursorColor = false;
     public int magnification, offset;
     public int afterMoveSetColumns;
-	public int afterMoveSetRows;
+    public int afterMoveSetRows;
+    
+    public boolean axePlaced = false;
+    public boolean boatPlaced = false;
+
+    
 
     // Private methods
     private Canvas mainCanvas;
@@ -28,6 +33,14 @@ public class MapDraw{
     private Image mapImage, tileset, items;
     private int map[][], tileType[][];
     private int tileSize = 16;
+
+    private final int BOAT = 0;
+    private final int AXE = 1;
+    private int boatRow = -1;
+	private int boatCol = -1;
+	private int axeRow = -1;
+	private int axeCol = -1;
+
    
 
     public void drawMap(String canvas){
@@ -239,7 +252,7 @@ public class MapDraw{
 		}
 	}
 
-    public void turningOnCurorColor() {		//turnOnCursorColor
+    public void turningOnCursorColor() {		
 		cursorColor = true;
 
 		changeCursorColor();
@@ -253,6 +266,27 @@ public class MapDraw{
 
     }
     
+    // Updating items when they are placed
+    private void updateItemsDraw() {
+		if (axePlaced) {
+			mainCanvas.getGraphicsContext2D().drawImage(
+					items,
+					AXE  * tileSize, tileSize, tileSize, tileSize,
+					axeCol * tileSize,
+					axeRow * tileSize,
+					tileSize, tileSize);
+		}
+		if (boatPlaced) {
+			mainCanvas.getGraphicsContext2D().drawImage(
+					items,
+					BOAT  * tileSize, tileSize, tileSize, tileSize,
+					boatCol * tileSize,
+					boatRow * tileSize,
+					tileSize, tileSize);
+		}
+	}
+
+
     // Cursor movement functions
     public void cursorUp() {
 		if (cursor.cursorRows > 0) {
@@ -274,7 +308,7 @@ public class MapDraw{
 	 * The method is used to move cursor down.
 	 */
 	public void cursorDown() {
-		if (cursor.cursorRows < numRows - 1 ) {
+		if (cursor.cursorRows < numofRows - 1 ) {
 			replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
 
 			cursor.cursorRows ++;
@@ -312,7 +346,7 @@ public class MapDraw{
 	 * The method is used to move cursor right.
 	 */
 	public void cursorRight() {
-		if (cursor.cursorColumns < numCols - 1 ) {
+		if (cursor.cursorColumns < numofCols - 1 ) {
 			replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
 
 			cursor.cursorColumns ++;
@@ -329,4 +363,6 @@ public class MapDraw{
 	}
                                      
 }
+
+
     

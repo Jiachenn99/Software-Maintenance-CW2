@@ -18,7 +18,9 @@ public class MapDraw{
     public int TotalMapHeight, TotalMapWidth, tilesWidth;
     public Cursors cursor; // Derived from MyCursor file
     public boolean cursorColor = false;
-    public int magnification;
+    public int magnification, offset;
+    public int afterMoveSetColumns;
+	public int afterMoveSetRows;
 
     // Private methods
     private Canvas mainCanvas;
@@ -27,7 +29,6 @@ public class MapDraw{
     private int map[][], tileType[][];
     private int tileSize = 16;
    
-
 
     public void drawMap(Canvas canvas){
 
@@ -56,7 +57,7 @@ public class MapDraw{
             e.printStackTrace();
         }
         
-        }
+    }
 
     public void loadImages(String tilesetImage, String itemImage){
         try{
@@ -142,10 +143,72 @@ public class MapDraw{
 		}
     }
     
+    private void validCursor() {	
+		replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
 
+		if (cursor.cursorRows < offset) {
+			cursor.cursorRows = offset;
+		}
+		else if (cursor.cursorRows > offset + TotalMapHeight - 1) {
+			cursor.cursorRows = offset + TotalMapHeight - 1;
+		}
 
+		if (cursor.cursorColumns < offset) {
+			cursor.cursorColumns = offset;
+		}
+		else if (cursor.cursorColumns > offset + TotalMapWidth - 1) {
+			cursor.cursorColumns = offset + TotalMapWidth - 1;
+		}
 
+		updateItemsDraw();
+		drawCursorToMainCanvas();
+		mapImage = mainCanvas.snapshot(null, null);
+	}
 
+    private void replaceTileInMainCanvasToOriginal(int col, int row) {
+		mainCanvas.getGraphicsContext2D().drawImage(
+            mapImage,
+            col * tileSize,
+            row * tileSize,
+            tileSize, tileSize,
+            col * tileSize,
+            row * tileSize,
+            tileSize, tileSize);
+	}
+
+    private void drawCursorToMainCanvas() {
+		mainCanvas.getGraphicsContext2D().drawImage(
+				cursor.cursorsOption[cursor.defaultCursor], 0, 0,
+				tileSize, tileSize,
+				cursor.cursorColumns * tileSize,
+				cursor.cursorRows * tileSize,
+				tileSize, tileSize);
+
+    private void updateCurrentCanvas() {
+        currentCanvas.getGraphicsContext2D().drawImage(
+                mapImage,
+                afterMoveSetColumns * tileSize, afterMoveSetRows * tileSize,
+                TotalMapWidth * tileSize, TotalMapHeight * tileSize,
+                0, 0, 640, 640);
+    }
+
+    private void setOffset(int magnification) {
+		if (magnification == 1) {
+			offset = 0;
+			afterMoveSetColumns = offset;
+			afterMoveSetRows = offset;
+		}
+		else if (magnification == 2){
+			offset = 10;
+			afterMoveSetColumns = offset;
+			afterMoveSetRows = offset;
+		}
+		else {
+			offset = 15;
+			afterMoveSetColumns = offset;
+			afterMoveSetRows = offset;
+		}
+	}
                                              
 }
     

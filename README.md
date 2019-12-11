@@ -5,7 +5,7 @@ Diamond Hunter is a 2D game written in Java using the Swing framework. The objec
 ## MapViewer - A new addition to the existing Diamond Hunter project
 MapViewer is an extension to the already existing Diamond Hunter game, building upon its *Resources* folder in order to generate a map for players to choose the location of the **axe** and **boat** objects with the controls provided.
 
-![]()
+![Game window](README_images/Game_window1.jpg)
 
 ## Features of MapViewer
 * Validation of input
@@ -14,6 +14,7 @@ MapViewer is an extension to the already existing Diamond Hunter game, building 
   * The user is able to zoom in / out onto the map relative to the cursor!
   
 ## Guidelines on using MapViewer
+
 ### Cloning the repository
 The repository can be cloned with the command
 ```

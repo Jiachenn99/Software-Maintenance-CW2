@@ -62,12 +62,12 @@ public class MainController {
 		else if (flag == 2) {
 			statusBar.setText("Axe coordinates updated.");
 			axePosition.setText(
-					"Axe: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
+					"Axe: (" + MapMain.tileMapViewer.cursor.cursorColumns + "," + MapMain.tileMapViewer.cursor.cursorRows + ")");
 		}
 		else if (flag == 0) {
 			statusBar.setText("Axe has been placed");
 			axePosition.setText(
-					"Axe: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
+					"Axe: (" + MapMain.tileMapViewer.cursor.cursorColumns + "," + MapMain.tileMapViewer.cursor.cursorRows + ")");
 		}
 	}
 	
@@ -83,12 +83,12 @@ public class MainController {
 		else if (flag == 2) {
 			statusBar.setText("Boat coordinates updated.");
 			boatPosition.setText(
-					"Boat: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
+					"Boat: (" + MapMain.tileMapViewer.cursor.cursorColumns + "," + MapMain.tileMapViewer.cursor.cursorRows + ")");
 		}
 		else if (flag == 0) {
 			statusBar.setText("Boat has been placed.");
 			boatPosition.setText(
-					"Boat: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
+					"Boat: (" + MapMain.tileMapViewer.cursor.cursorColumns + "," + MapMain.tileMapViewer.cursor.cursorRows + ")");
 		}
 	}
 	
@@ -106,10 +106,10 @@ public class MainController {
 		}
 
 		if(event.getCode() == KeyCode.Z) {
-			MapMain.tileMapViewer.zoomIn();			
+			MapMain.tileMapViewer.zoomIn();			//zoomInImage (pls delete dis comment)
 	    }
 	    else if (event.getCode() == KeyCode.X) {
-	    	MapMain.tileMapViewer.zoomOut();		
+	    	MapMain.tileMapViewer.zoomOut();		//zoomOutImage (plz delete dis comment)
 	    }
 	    else if (event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) {
 	    	MapMain.tileMapViewer.cursorUp();
@@ -148,29 +148,29 @@ public class MainController {
 			else if (flag == 2) {
 				statusBar.setText("Axe coordinates updated.");
 				axePosition.setText(
-    					"Axe: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
+    					"Axe: (" + MapMain.tileMapViewer.cursor.cursorColumns + "," + MapMain.tileMapViewer.cursor.cursorRows + ")");
 			}
 			else if (flag == 0) {
 				statusBar.setText("Axe has been placed.");
     			axePosition.setText(
-    					"Axe: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
+    					"Axe: (" + MapMain.tileMapViewer.cursor.cursorColumns + "," + MapMain.tileMapViewer.cursor.cursorRows + ")");
 			}
 		}
 
 		else if (event.getCode() == KeyCode.P) {
-			flag = MapMain.tileMapViewer.settingBoat();    //handleSetBoatRequest
+			flag = MapMain.tileMapViewer.settingBoat();   
 			if (flag == 1) {
 				bumbleBoat();
 			}
 			else if (flag == 2) {
 				statusBar.setText("Boat coordinates updated.");
 				boatPosition.setText(
-    					"Boat: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
+    					"Boat: (" + MapMain.tileMapViewer.cursor.cursorColumns + "," + MapMain.tileMapViewer.cursor.cursorRows + ")");
 			}
 			else if (flag == 0) {
 				statusBar.setText("Boat has been placed.");
     			boatPosition.setText(
-    					"Boat: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
+    					"Boat: (" + MapMain.tileMapViewer.cursor.cursorColumns + "," + MapMain.tileMapViewer.cursor.cursorRows + ")");
 			}
 		}
 	}
@@ -205,7 +205,7 @@ public class MainController {
 		alert.setOnCloseRequest(event -> {alert.close();});
 	}
 	//Updates cursor coordinates every cursor move
-	private void updateCursorCoordinates() {				//cursorCols-> cursorColumns
-		cursorCoordinates.setText("(" + MapMain.tileMapViewer.cursor.cursorColumns + ", " + MapMain.tileMapViewer.cursor.cursorColumns + ")");
+	private void updateCursorCoordinates() {				
+		cursorCoordinates.setText("(" + MapMain.tileMapViewer.cursor.cursorColumns + ", " + MapMain.tileMapViewer.cursor.cursorRows + ")");
 	}
 }

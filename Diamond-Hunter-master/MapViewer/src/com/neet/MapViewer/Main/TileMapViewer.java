@@ -89,7 +89,7 @@ public class TileMapViewer implements ItemPosition{
                 String line = br.readLine();
                 String[] tokens = line.split(delimiters);
                 for (int col = 0; col < numofCols; col++) {
-                    map[numofRows][numofCols] = Integer.parseInt(tokens[col]);
+                    map[i][col] = Integer.parseInt(tokens[col]);
                 }
             }
             
@@ -479,7 +479,7 @@ public class TileMapViewer implements ItemPosition{
      * @return Integer that corresponds to a placement state (invalid or valid position)
      */
 
-    public int handleSetAxe() {
+    public int settingAxe() {
 		int handleType;
 		cursorColor = false;
 		changeCursorColor();
@@ -524,7 +524,7 @@ public class TileMapViewer implements ItemPosition{
      * @return Integer that corresponds to a placement state (invalid or valid position)
      */
 
-    public int handleSetBoat() {
+    public int settingBoat() {
 		int handleType;
 		cursorColor = false;
 		changeCursorColor();

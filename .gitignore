@@ -27,7 +27,7 @@ hs_err_pid*
 # .project
 .vscode
 bin/
-*/.idea
 /.idea
 /out
 *.iml
+src/com/neet/MapViewer/.idea

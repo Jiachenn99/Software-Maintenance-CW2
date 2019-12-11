@@ -15,7 +15,7 @@ public class MapDraw{
 
     // Public methods
     public Canvas currentCanvas;
-    public int TotalMapHeight, TotalMapWidth, tilesWidth;
+    public int numofRows, numofCols, tilesWidth, currentNumCols, currentNumRows;
     public Cursors cursor; // Derived from MyCursor file
     public boolean cursorColor = false;
     public int magnification, offset;
@@ -30,7 +30,7 @@ public class MapDraw{
     private int tileSize = 16;
    
 
-    public void drawMap(Canvas canvas){
+    public void drawMap(String canvas){
 
         try{
             // Obtain the data from the map file
@@ -38,18 +38,22 @@ public class MapDraw{
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
     
             // Variables for canvas setting
-            TotalMapWidth = Integer.parseInt(br.readLine());
-            TotalMapHeight = Integer.parseInt(br.readLine());
-            map = new int[TotalMapHeight][TotalMapWidth];
+            numofCols = Integer.parseInt(br.readLine());
+            numofRows = Integer.parseInt(br.readLine());
+
+            currentNumCols = numofCols;
+            currentNumRows = numofRows;
+            
+            map = new int[numofRows][numofCols];
     
             // Processing the map file
             // Space is the delimiter across sprites/units in the testmap.map file
             String delimiters = " ";
-            for(int i = 0; i < TotalMapHeight; i++){
+            for(int i = 0; i < numofRows; i++){
                 String line = br.readLine();
                 String[] tokens = line.split(delimiters);
-                for (int col = 0; col < TotalMapWidth; col++) {
-                    map[TotalMapHeight][TotalMapWidth] = Integer.parseInt(tokens[col]);
+                for (int col = 0; col < numofCols; col++) {
+                    map[numofRows][numofCols] = Integer.parseInt(tokens[col]);
                 }
             }
             
@@ -74,11 +78,11 @@ public class MapDraw{
     public void initialiseCanvas() {
 		mainCanvas = new Canvas(640,640);
 		currentCanvas = new Canvas(640, 640);
-		tileType = new int[TotalMapHeight][TotalMapWidth];
+		tileType = new int[numofRows][numofCols];
 		cursor = new Cursors();
 
-		for(int row = 0; row < TotalMapHeight; row++) {
-			for(int col = 0; col < TotalMapWidth; col++) {
+		for(int row = 0; row < numofRows; row++) {
+			for(int col = 0; col < numofCols; col++) {
 				if(map[row][col] == 0) continue;
 
 				int rc = map[row][col];
@@ -121,8 +125,8 @@ public class MapDraw{
 		if (magnification < 4) {
 
 			magnification *= 2;
-			TotalMapWidth /= 2;
-			TotalMapHeight /= 2;
+			currentNumCols /= 2;
+			currentNumRows /= 2;
 			setOffset(magnification);
 
 			validCursor();
@@ -134,8 +138,8 @@ public class MapDraw{
 		if (magnification > 1) {
 
 			magnification /= 2;
-			TotalMapWidth *= 2;
-			TotalMapHeight *= 2;
+			currentNumCols *= 2;
+			currentNumRows *= 2;
 			setOffset(magnification);
 
 			validCursor();
@@ -149,15 +153,15 @@ public class MapDraw{
 		if (cursor.cursorRows < offset) {
 			cursor.cursorRows = offset;
 		}
-		else if (cursor.cursorRows > offset + TotalMapHeight - 1) {
-			cursor.cursorRows = offset + TotalMapHeight - 1;
+		else if (cursor.cursorRows > offset + currentNumRows - 1) {
+			cursor.cursorRows = offset + currentNumRows - 1;
 		}
 
 		if (cursor.cursorColumns < offset) {
 			cursor.cursorColumns = offset;
 		}
-		else if (cursor.cursorColumns > offset + TotalMapWidth - 1) {
-			cursor.cursorColumns = offset + TotalMapWidth - 1;
+		else if (cursor.cursorColumns > offset + currentNumCols - 1) {
+			cursor.cursorColumns = offset + currentNumCols - 1;
 		}
 
 		updateItemsDraw();
@@ -188,7 +192,7 @@ public class MapDraw{
         currentCanvas.getGraphicsContext2D().drawImage(
                 mapImage,
                 afterMoveSetColumns * tileSize, afterMoveSetRows * tileSize,
-                TotalMapWidth * tileSize, TotalMapHeight * tileSize,
+                currentNumCols * tileSize, currentNumRows * tileSize,
                 0, 0, 640, 640);
     }
 
@@ -208,7 +212,121 @@ public class MapDraw{
 			afterMoveSetColumns = offset;
 			afterMoveSetRows = offset;
 		}
+    }
+    
+    private void updateMoveset() {
+		if (afterMoveSetColumns > cursor.cursorColumns) {
+			afterMoveSetColumns --;
+		}
+		else if (afterMoveSetRows > cursor.cursorRows) {
+			afterMoveSetRows --;
+		}
+		else if (afterMoveSetColumns + currentNumCols - 1 < cursor.cursorColumns) {
+			afterMoveSetColumns ++;
+		}
+		else if (afterMoveSetRows + currentNumRows - 1 < cursor.cursorRows) {
+			afterMoveSetRows ++;
+		}
+
+    }
+    
+    private void changeCursorColor() {
+		if (cursorColor == true) {
+			cursor.defaultCursor = tileType[cursor.cursorRows][cursor.cursorColumns];
+		}
+		else {
+			cursor.defaultCursor = 2;
+		}
 	}
-                                             
+
+    public void turningOnCurorColor() {		//turnOnCursorColor
+		cursorColor = true;
+
+		changeCursorColor();
+
+		replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
+
+		updateItemsDraw();
+		drawCursorToMainCanvas();
+		mapImage = mainCanvas.snapshot(null, null);
+		updateCurrentCanvas();
+
+    }
+    
+    // Cursor movement functions
+    public void cursorUp() {
+		if (cursor.cursorRows > 0) {
+			replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
+
+			cursor.cursorRows --;
+			changeCursorColor();
+
+			updateItemsDraw();
+			drawCursorToMainCanvas();
+
+			mapImage = mainCanvas.snapshot(null, null);
+
+			updateMoveset();
+			updateCurrentCanvas();
+		}
+	}
+	/**
+	 * The method is used to move cursor down.
+	 */
+	public void cursorDown() {
+		if (cursor.cursorRows < numRows - 1 ) {
+			replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
+
+			cursor.cursorRows ++;
+			changeCursorColor();
+
+			updateItemsDraw();
+			drawCursorToMainCanvas();
+
+			mapImage = mainCanvas.snapshot(null, null);
+
+			updateMoveset();
+			updateCurrentCanvas();
+		}
+	}
+	/**
+	 * The method is used to move cursor left.
+	 */
+	public void cursorLeft() {
+		if (cursor.cursorColumns > 0) {
+			replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
+
+			cursor.cursorColumns --;
+			changeCursorColor();
+
+			updateItemsDraw();
+			drawCursorToMainCanvas();
+
+			mapImage = mainCanvas.snapshot(null, null);
+
+			updateMoveset();
+			updateCurrentCanvas();
+		}
+	}
+	/**
+	 * The method is used to move cursor right.
+	 */
+	public void cursorRight() {
+		if (cursor.cursorColumns < numCols - 1 ) {
+			replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
+
+			cursor.cursorColumns ++;
+			changeCursorColor();
+
+			updateItemsDraw();
+			drawCursorToMainCanvas();
+
+			mapImage = mainCanvas.snapshot(null, null);
+
+			updateMoveset();
+			updateCurrentCanvas();
+		}
+	}
+                                     
 }
     

@@ -109,8 +109,8 @@ public class TileMapViewer implements ItemPosition{
 
     public void loadImages(String tilesetImage, String itemImage){
         try{
-            tileset = new Image(MapDraw.class.getResourceAsStream(tilesetImage));
-            items = new Image(MapDraw.class.getResourceAsStream(itemImage));
+            tileset = new Image(TileMapViewer.class.getResourceAsStream(tilesetImage));
+            items = new Image(TileMapViewer.class.getResourceAsStream(itemImage));
             tilesWidth = (int)tileset.getWidth() / tileSize; 
             
         } catch (Exception e){
@@ -131,7 +131,7 @@ public class TileMapViewer implements ItemPosition{
 		mainCanvas = new Canvas(640,640);
 		currentCanvas = new Canvas(640, 640);
 		tileType = new int[numofRows][numofCols];
-		cursor = new Cursors();
+		cursor = new MyCursor();
 
 		for(int row = 0; row < numofRows; row++) {
 			for(int col = 0; col < numofCols; col++) {

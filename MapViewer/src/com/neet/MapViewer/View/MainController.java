@@ -106,10 +106,10 @@ public class MainController {
 		}
 
 		if(event.getCode() == KeyCode.Z) {
-			MapMain.tileMapViewer.zoomIn();			//zoomInImage (pls delete dis comment)
+			MapMain.tileMapViewer.zoomIn();			
 	    }
 	    else if (event.getCode() == KeyCode.X) {
-	    	MapMain.tileMapViewer.zoomOut();		//zoomOutImage (plz delete dis comment)
+	    	MapMain.tileMapViewer.zoomOut();		
 	    }
 	    else if (event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) {
 	    	MapMain.tileMapViewer.cursorUp();

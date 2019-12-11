@@ -25,8 +25,6 @@ public class MapDraw{
     public boolean axePlaced = false;
     public boolean boatPlaced = false;
 
-    
-
     // Private methods
     private Canvas mainCanvas;
     private GraphicsContext graphicsContext;
@@ -41,9 +39,16 @@ public class MapDraw{
 	private int axeRow = -1;
 	private int axeCol = -1;
 
-   
 
-    public void drawMap(String canvas){
+    /**
+     * The function produces a two-dimensional array of row x col
+     * after reading in the contents of the map file.
+     * 
+     * @param MAP_PATH A file that contains information of the map (coordinates)
+     * @return NULL
+     */
+    
+    public void drawMap(String MAP_PATH){
 
         try{
             // Obtain the data from the map file
@@ -76,6 +81,14 @@ public class MapDraw{
         
     }
 
+    /**
+     * This method loads the images from the "Resource" folder
+     * 
+     * @param tilesetImage File that contains image of every tile
+     * @param itemImage File that contains image of the axe and boat (referred to as items)
+     * @return Nothing
+     */
+
     public void loadImages(String tilesetImage, String itemImage){
         try{
             tileset = new Image(MapDraw.class.getResourceAsStream(tilesetImage));
@@ -87,6 +100,14 @@ public class MapDraw{
         }
         
     }
+
+    /**
+     * This method takes a snapshot (sort of saving state) of 
+     * the drawn canvas for use
+     * 
+     * @return Nothing
+     * 
+     */
 
     public void initialiseCanvas() {
 		mainCanvas = new Canvas(640,640);
@@ -134,6 +155,13 @@ public class MapDraw{
 	}
     
 
+    /**
+     * This method allows the user to zoom in onto the canvas.
+     * The method updates the canvas everytime a zoom operation is performed.
+     * 
+     * @return Nothing
+     */
+
     public void zoomIn() {		//zoomIn
 		if (magnification < 4) {
 
@@ -142,11 +170,18 @@ public class MapDraw{
 			currentNumRows /= 2;
 			setOffset(magnification);
 
-			validCursor();
+			correctCursor();
 			updateCurrentCanvas();
 		}
     }
     
+     /**
+     * This method allows the user to zoom out onto the canvas.
+     * The method updates the canvas everytime a zoom operation is performed.
+     * 
+     * @return Nothing
+     */
+
     public void zoomOut() {   //zoomOut
 		if (magnification > 1) {
 
@@ -155,12 +190,20 @@ public class MapDraw{
 			currentNumRows *= 2;
 			setOffset(magnification);
 
-			validCursor();
+			correctCursor();
 			updateCurrentCanvas();
 		}
     }
     
-    private void validCursor() {	
+     /**
+     * This method always keeps the cursor in view of the user.
+     * In the event a zoom is performed and cursor is out of bounds,
+     * this method will reposition the canvas.
+     * 
+     * @return Nothing
+     */
+
+    private void correctCursor() {	
 		replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
 
 		if (cursor.cursorRows < offset) {
@@ -182,6 +225,15 @@ public class MapDraw{
 		mapImage = mainCanvas.snapshot(null, null);
 	}
 
+    /**
+     * This method is used to delete cursor from main canvas.
+     * The action above is acheived by redrawing the tile where the cursor is on.
+     * 
+     * @param col Current column cursor is on
+     * @param row Current row cursor is on
+     * @return Nothing
+     */
+    
     private void replaceTileInMainCanvasToOriginal(int col, int row) {
 		mainCanvas.getGraphicsContext2D().drawImage(
             mapImage,
@@ -193,14 +245,27 @@ public class MapDraw{
             tileSize, tileSize);
 	}
 
+    /**
+     * This method is used to draw the cursor to the main canvas.
+     * 
+     * @return Nothing
+     */
+
     private void drawCursorToMainCanvas() {
 		mainCanvas.getGraphicsContext2D().drawImage(
 				cursor.cursorsOption[cursor.defaultCursor], 0, 0,
 				tileSize, tileSize,
 				cursor.cursorColumns * tileSize,
 				cursor.cursorRows * tileSize,
-				tileSize, tileSize);
+                tileSize, tileSize);
+    }
 
+
+    /**
+     * This method updates the current canvas on key press / each move
+     * 
+     * @return Nothing
+     */
     private void updateCurrentCanvas() {
         currentCanvas.getGraphicsContext2D().drawImage(
                 mapImage,
@@ -208,6 +273,13 @@ public class MapDraw{
                 currentNumCols * tileSize, currentNumRows * tileSize,
                 0, 0, 640, 640);
     }
+
+    /**
+     * This method sets the offset when the map is zoomed in.
+     * To adjust for proper viewing 
+     * 
+     * @param magnification The zoom factor of the map 
+     */
 
     private void setOffset(int magnification) {
 		if (magnification == 1) {
@@ -227,6 +299,14 @@ public class MapDraw{
 		}
     }
     
+    /**
+     * This method updates the boundaries of the screen when the user is zoomed in.
+     * If the user is at the boundary of the screen, the next movement in the direction
+     * of the boundary will move the screen accordingly.
+     * 
+     * @return Nothing
+     */
+
     private void updateMoveset() {
 		if (afterMoveSetColumns > cursor.cursorColumns) {
 			afterMoveSetColumns --;
@@ -243,6 +323,13 @@ public class MapDraw{
 
     }
     
+    /**
+     * This method changes the cursor color depending on the situation
+     * - Whether it is a valid placement of object or not
+     * 
+     * @return Nothing
+     */
+
     private void changeCursorColor() {
 		if (cursorColor == true) {
 			cursor.defaultCursor = tileType[cursor.cursorRows][cursor.cursorColumns];
@@ -251,6 +338,12 @@ public class MapDraw{
 			cursor.defaultCursor = 2;
 		}
 	}
+
+    /**
+     * This method just changes the cursor color when user selects axe / boat
+     * 
+     * @return Nothing
+     */
 
     public void turningOnCursorColor() {		
 		cursorColor = true;
@@ -266,7 +359,12 @@ public class MapDraw{
 
     }
     
-    // Updating items when they are placed
+    /**
+     * This method draws the placed items in the event the map changes (by zoom)
+     * 
+     * @return Nothing
+     */
+
     private void updateItemsDraw() {
 		if (axePlaced) {
 			mainCanvas.getGraphicsContext2D().drawImage(
@@ -287,7 +385,8 @@ public class MapDraw{
 	}
 
 
-    // Cursor movement functions
+    // Functions below are related to moving cursor in different directions
+
     public void cursorUp() {
 		if (cursor.cursorRows > 0) {
 			replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
@@ -304,9 +403,7 @@ public class MapDraw{
 			updateCurrentCanvas();
 		}
 	}
-	/**
-	 * The method is used to move cursor down.
-	 */
+
 	public void cursorDown() {
 		if (cursor.cursorRows < numofRows - 1 ) {
 			replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
@@ -323,9 +420,7 @@ public class MapDraw{
 			updateCurrentCanvas();
 		}
 	}
-	/**
-	 * The method is used to move cursor left.
-	 */
+	
 	public void cursorLeft() {
 		if (cursor.cursorColumns > 0) {
 			replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
@@ -342,9 +437,7 @@ public class MapDraw{
 			updateCurrentCanvas();
 		}
 	}
-	/**
-	 * The method is used to move cursor right.
-	 */
+	
 	public void cursorRight() {
 		if (cursor.cursorColumns < numofCols - 1 ) {
 			replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
@@ -361,7 +454,96 @@ public class MapDraw{
 			updateCurrentCanvas();
 		}
 	}
-                                     
+    
+    /**
+     * The method handles the result when user places the axe on a tile.
+     * 
+     * @return Integer that corresponds to a placement state (invalid or valid position)
+     */
+
+    public int handleSetAxe() {
+		int handleType;
+		cursorColor = false;
+		changeCursorColor();
+
+		replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
+
+		if (tileType[cursor.cursorRows][cursor.cursorColumns] == 1) {
+			handleType = 1;
+		}
+		else {
+			if (axePlaced) {
+				replaceTileInMainCanvasToOriginal(axeCol, axeRow);
+				
+				tileType[axeRow][axeCol] = 0;
+				tileType[cursor.cursorRows][cursor.cursorColumns] = 1;
+				
+				handleType = 2;
+			}
+			else {
+				handleType = 0;
+			}
+			
+    		axePlaced = true;
+	    	tileType[cursor.cursorRows][cursor.cursorColumns] = 1;
+
+	    	axeRow = cursor.cursorRows;
+	    	axeCol = cursor.cursorColumns;
+		}
+
+		updateItemsDraw();
+    	drawCursorToMainCanvas();
+		
+    	mapImage = mainCanvas.snapshot(null, null);
+    	updateCurrentCanvas();
+
+    	return handleType;
+    }
+    
+    /**
+     * The method handles the result when user places the boat on a tile.
+     * 
+     * @return Integer that corresponds to a placement state (invalid or valid position)
+     */
+
+    public int handleSetBoat() {
+		int handleType;
+		cursorColor = false;
+		changeCursorColor();
+
+		replaceTileInMainCanvasToOriginal(cursor.cursorColumns, cursor.cursorRows);
+
+		// return type: Position invalid
+		if (tileType[cursor.cursorRows][cursor.cursorColumns] == 1) {
+			handleType = 1;
+		}
+		// return type: Boat put successful 
+		else {
+			if (boatPlaced) {
+				replaceTileInMainCanvasToOriginal(boatCol, boatRow);
+				
+				tileType[boatRow][boatCol] = 0;
+				tileType[cursor.cursorRows][cursor.cursorColumns] = 1;
+				
+				handleType = 2;
+			}
+			else {
+				handleType = 0;
+			}
+
+    		boatPlaced = true;   
+	    	tileType[cursor.cursorRows][cursor.cursorColumns]= 1;
+	    	boatRow = cursor.cursorRows;
+	    	boatCol = cursor.cursorColumns;
+	    	
+		}
+		updateItemsDraw();
+		drawCursorToMainCanvas();
+    	mapImage = mainCanvas.snapshot(null, null);
+    	updateCurrentCanvas();
+    	return handleType;
+	}
+
 }
 
 

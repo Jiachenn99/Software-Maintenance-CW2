@@ -12,7 +12,7 @@ public class MapMain extends Application {
 
     public static Stage primaryStage;
 
-    public static TileMapViewer tileMapViewer;
+    public static MapDraw tileMapViewer;
 
     public TilePane tileOverview;
 
@@ -32,14 +32,14 @@ public class MapMain extends Application {
     }
 
     public void setMapViewer() {
-        tileMapViewer = new TileMapViewer();
-        tileMapViewer.loadMapFile("/Maps/testmap.map");
-        tileMapViewer.loadImagesFiles("/Tilesets/testtileset.gif", "/Sprites/items.gif");
+        tileMapViewer = new MapDraw();
+        tileMapViewer.drawMap("/Maps/testmap.map");
+        tileMapViewer.loadImages("/Tilesets/testtileset.gif", "/Sprites/items.gif");
         FXMLLoader loader = new FXMLLoader();
         tileOverview = loader.load(getClass().getResource("MapOverview.fxml"));
 
-        tileOverview.setPrefColumns(tileMapViewer.numCols);
-        tileOverview.setPrefRows(tileMapViewer.numRows);
+        tileOverview.setPrefColumns(tileMapViewer.TotalMapWidth);
+        tileOverview.setPrefRows(tileMapViewer.TotalMapHeight);
         tileMapViewer.initialiseCanvas();
         tileOverview.getChildren().add(tileMapViewer.currentCanvas);
 

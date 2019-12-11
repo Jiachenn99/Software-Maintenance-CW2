@@ -56,10 +56,12 @@ public class MapDraw{
             tilesWidth = (int)tileset.getWidth() / tileSize; 
             
         } catch (Exception e){
-
+            e.printStackTrace();
         }
         
     }
+
+    
                                              
 }
     

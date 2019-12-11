@@ -3,6 +3,7 @@ package com.neet.MapViewer.Main;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
@@ -19,12 +20,14 @@ public class MapMain extends Application {
     public BorderPane root;
     
     public static boolean viewerLaunch;
-
+    
     @Override
     public void start(Stage primaryStage) throws Exception {
         MapMain.primaryStage = primaryStage;
         MapMain.primaryStage.setTitle("Map Viewer");
-        
+        Image icon = new Image(MapMain.class.getResource("/Icon/surprised_pika.jpg").toExternalForm(), false);
+        primaryStage.getIcons().add(icon);
+
         setRootLayout();
         setMapViewer();
         viewerLaunch = true;

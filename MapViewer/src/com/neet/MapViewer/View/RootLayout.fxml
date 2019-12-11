@@ -51,7 +51,7 @@
             </Button>
             <Button fx:id="boatButton" onMouseClicked="#boatButtonPressed" prefHeight="31.0" prefWidth="58.0" style="-fx-font-family: Helvetica; -fx-background-color: #ababab;" text="" textFill="BLACK" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
             </Button>
-            <Label fx:id="statusBar" style="-fx-font-family: Helvetica;" text="Welcome to Map Viewer! :D" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+            <Label fx:id="statusBar" style="-fx-font-family: Helvetica;" text="Welcome! :D Move using W/A/S/D." textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <font>
                   <Font size="13.0" />
                </font></Label>

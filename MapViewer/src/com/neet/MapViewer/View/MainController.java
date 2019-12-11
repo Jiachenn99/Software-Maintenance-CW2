@@ -1,4 +1,4 @@
-package com.neet.MapViewer.Overview;
+package com.neet.MapViewer.View;
 
 import com.neet.DiamondHunter.Main.Game;
 import com.neet.DiamondHunter.Manager.Content;
@@ -53,42 +53,42 @@ public class MainController {
 	//handles axeButton when clicked
 	@FXML
 	public void axeButtonPressed() {
-		MapMain.tileMapViewer.turningOnCurorColor();
+		MapMain.tileMapViewer.turningOnCursorColor();
 		statusBar.setText("Placing axe...");
-		flag = MapMain.tileMapViewer.settingAxe();			//handleSetAxeRequest (delcomment)
+		flag = MapMain.tileMapViewer.settingAxe();	
 		if (flag == 1) {
 			bumbleAxe();
 		}
 		else if (flag == 2) {
 			statusBar.setText("Axe coordinates updated.");
 			axePosition.setText(
-					"Axe: (" + MapMain.tileMapViewer.cursor.cursorX + "," + MapMain.tileMapViewer.cursor.cursorY + ")");
+					"Axe: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
 		}
 		else if (flag == 0) {
 			statusBar.setText("Axe has been placed");
 			axePosition.setText(
-					"Axe: (" + MapMain.tileMapViewer.cursor.cursorX + "," + MapMain.tileMapViewer.cursor.cursorY + ")");
+					"Axe: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
 		}
 	}
 	
 	//handles boatButton when clicked
 	@FXML
 	public void boatButtonPressed() {
-		MapMain.tileMapViewer.turnOnCursorColor();		//turningOnCurorColor (delcomment)
+		MapMain.tileMapViewer.turningOnCursorColor();		
 		statusBar.setText("Placing boat...");
-		flag = MapMain.tileMapViewer.settingBoat();			//handleSetBoatRequest (delcomment)
+		flag = MapMain.tileMapViewer.settingBoat();	
 		if (flag == 1) {
 			bumbleBoat();
 		}
 		else if (flag == 2) {
 			statusBar.setText("Boat coordinates updated.");
 			boatPosition.setText(
-					"Boat: (" + MapMain.tileMapViewer.cursor.cursorX + "," + MapMain.tileMapViewer.cursor.cursorY + ")");
+					"Boat: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
 		}
 		else if (flag == 0) {
 			statusBar.setText("Boat has been placed.");
 			boatPosition.setText(
-					"Boat: (" + MapMain.tileMapViewer.cursor.cursorX + "," + MapMain.tileMapViewer.cursor.cursorY + ")");
+					"Boat: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
 		}
 	}
 	
@@ -128,11 +128,11 @@ public class MainController {
 	    	updateCursorCoordinates();
 	    }
 	    else if (event.getCode() == KeyCode.O) {
-	    	MapMain.tileMapViewer.turnCursorColor();		//turningOnCursorColor
+	    	MapMain.tileMapViewer.turningOnCursorColor();		//turningOnCursorColor
 	    	statusBar.setText("Placing Axe...");
 	    }
 	    else if (event.getCode() == KeyCode.P) {
-	    	MapMain.tileMapViewer.turnOnCursorColor();
+	    	MapMain.tileMapViewer.turningOnCursorColor();
 	    	statusBar.setText("Placing Boat...");
 	    }
 	}
@@ -148,12 +148,12 @@ public class MainController {
 			else if (flag == 2) {
 				statusBar.setText("Axe coordinates updated.");
 				axePosition.setText(
-    					"Axe: (" + MapMain.tileMapViewer.cursor.cursorX + "," + MapMain.tileMapViewer.cursor.cursorY + ")");
+    					"Axe: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
 			}
 			else if (flag == 0) {
 				statusBar.setText("Axe has been placed.");
     			axePosition.setText(
-    					"Axe: (" + MapMain.tileMapViewer.cursor.cursorX + "," + MapMain.tileMapViewer.cursor.cursorY + ")");
+    					"Axe: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
 			}
 		}
 
@@ -165,12 +165,12 @@ public class MainController {
 			else if (flag == 2) {
 				statusBar.setText("Boat coordinates updated.");
 				boatPosition.setText(
-    					"Boat: (" + MapMain.tileMapViewer.cursor.cursorX + "," + MapMain.tileMapViewer.cursor.cursorY + ")");
+    					"Boat: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
 			}
 			else if (flag == 0) {
 				statusBar.setText("Boat has been placed.");
     			boatPosition.setText(
-    					"Boat: (" + MapMain.tileMapViewer.cursor.cursorX + "," + MapMain.tileMapViewer.cursor.cursorY + ")");
+    					"Boat: (" + MapMain.tileMapViewer.cursor.cursorRows + "," + MapMain.tileMapViewer.cursor.cursorColumns + ")");
 			}
 		}
 	}
@@ -205,7 +205,7 @@ public class MainController {
 		alert.setOnCloseRequest(event -> {alert.close();});
 	}
 	//Updates cursor coordinates every cursor move
-	private void updateCursorCoordinates() {				//cursorCols-> cursorY
-		cursorCoordinates.setText("(" + MapMain.tileMapViewer.cursor.cursorY + ", " + MapMain.tileMapViewer.cursor.cursorY + ")");
+	private void updateCursorCoordinates() {				//cursorCols-> cursorColumns
+		cursorCoordinates.setText("(" + MapMain.tileMapViewer.cursor.cursorColumns + ", " + MapMain.tileMapViewer.cursor.cursorColumns + ")");
 	}
 }

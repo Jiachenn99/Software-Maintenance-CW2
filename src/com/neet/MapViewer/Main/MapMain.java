@@ -38,8 +38,8 @@ public class MapMain extends Application {
         FXMLLoader loader = new FXMLLoader();
         tileOverview = loader.load(getClass().getResource("MapOverview.fxml"));
 
-        tileOverview.setPrefColumns(tileMapViewer.TotalMapWidth);
-        tileOverview.setPrefRows(tileMapViewer.TotalMapHeight);
+        tileOverview.setPrefColumns(tileMapViewer.numofCols);
+        tileOverview.setPrefRows(tileMapViewer.numofRows);
         tileMapViewer.initialiseCanvas();
         tileOverview.getChildren().add(tileMapViewer.currentCanvas);
 

@@ -1,41 +1,62 @@
 package com.neet.MapViewer.Main;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class TileMapViewer{
+import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
 
-    // Public methods
-    public Canvas currentCanvas;
-    public int numofRows, numofCols, tilesWidth, currentNumCols, currentNumRows;
-    public Cursors cursor; // Derived from MyCursor file
-    public boolean cursorColor = false;
-    public int magnification, offset;
-    public int afterMoveSetColumns;
-    public int afterMoveSetRows;
-    
-    public boolean axePlaced = false;
-    public boolean boatPlaced = false;
+public class TileMapViewer implements ItemPosition{
 
-    // Private methods
-    private Canvas mainCanvas;
-    private GraphicsContext graphicsContext;
-    private Image mapImage, tileset, items;
-    private int map[][], tileType[][];
-    private int tileSize = 16;
-
-    private final int BOAT = 0;
-    private final int AXE = 1;
-    private int boatRow = -1;
+	private int boatRow = -1;
 	private int boatCol = -1;
 	private int axeRow = -1;
 	private int axeCol = -1;
+
+	public int getBoatRow() {
+		return boatRow;
+	}
+	public int getBoatCol() {
+		return boatCol;
+	}
+	public int getAxeRow() {
+		return axeRow;
+	}
+	public int getAxeCol() {
+		return axeCol;
+	}
+
+	private final int BOAT = 0;
+    private final int AXE = 1;
+
+	private int tileSize = 16;
+	public int numofRows, numofCols;
+	
+	public MyCursor cursor;
+	public boolean cursorColor = false;
+
+	private int magnification = 1;
+
+	private int map[][], tileType[][];
+
+	private Image tileset;
+
+	private Canvas mainCanvas;
+	public Canvas currentCanvas;
+
+	private Image mapImage, originalmapImage;
+	
+    
+    public int tilesWidth, currentNumCols, currentNumRows;
+    
+    public int offset;
+    public int afterMoveSetColumns;
+    public int afterMoveSetRows;
+	
+	private Image items;
+    public boolean axePlaced = false;
+    public boolean boatPlaced = false;
 
 
     /**
@@ -56,7 +77,6 @@ public class TileMapViewer{
             // Variables for canvas setting
             numofCols = Integer.parseInt(br.readLine());
             numofRows = Integer.parseInt(br.readLine());
-
             currentNumCols = numofCols;
             currentNumRows = numofRows;
             
@@ -143,7 +163,7 @@ public class TileMapViewer{
 
 			}
 		}
-		mapImage = mainCanvas.snapshot(null, null);
+		originalmapImage = mainCanvas.snapshot(null, null);
 		drawCursorToMainCanvas();
 		currentCanvas.getGraphicsContext2D().drawImage(
 				cursor.cursorsOption[cursor.defaultCursor], 0, 0, tileSize, tileSize,
@@ -160,7 +180,7 @@ public class TileMapViewer{
      * @return Nothing
      */
 
-    public void zoomIn() {		//zoomIn
+    public void zoomIn() {
 		if (magnification < 4) {
 
 			magnification *= 2;
@@ -180,7 +200,7 @@ public class TileMapViewer{
      * @return Nothing
      */
 
-    public void zoomOut() {   //zoomOut
+    public void zoomOut() {
 		if (magnification > 1) {
 
 			magnification /= 2;
@@ -234,7 +254,7 @@ public class TileMapViewer{
     
     private void replaceTileInMainCanvasToOriginal(int col, int row) {
 		mainCanvas.getGraphicsContext2D().drawImage(
-            mapImage,
+            originalmapImage,
             col * tileSize,
             row * tileSize,
             tileSize, tileSize,

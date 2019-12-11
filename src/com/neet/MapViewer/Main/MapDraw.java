@@ -13,12 +13,21 @@ public class MapDraw{
     
     public static String MAP_PATH = "/Maps/testmap.map";
 
-    private Canvas wholeCanvas, currentCanvas;
+    // Public methods
+    public Canvas currentCanvas;
+    public int TotalMapHeight, TotalMapWidth, tilesWidth;
+    public Cursors cursor; // Derived from MyCursor file
+    public boolean cursorColor = false;
+    public int magnification;
+
+    // Private methods
+    private Canvas mainCanvas;
     private GraphicsContext graphicsContext;
-    private Image image, tilesets;
-    private int TotalMapHeight, TotalMapWidth, tilesWidth;
-    private int map[][];
+    private Image mapImage, tileset, items;
+    private int map[][], tileType[][];
     private int tileSize = 16;
+   
+
 
     public void drawMap(Canvas canvas){
 
@@ -51,8 +60,8 @@ public class MapDraw{
 
     public void loadImages(String tilesetImage, String itemImage){
         try{
-            Image tileset = new Image(MapDraw.class.getResourceAsStream(tilesetImage));
-            Image items = new Image(MapDraw.class.getResourceAsStream(itemImage));
+            tileset = new Image(MapDraw.class.getResourceAsStream(tilesetImage));
+            items = new Image(MapDraw.class.getResourceAsStream(itemImage));
             tilesWidth = (int)tileset.getWidth() / tileSize; 
             
         } catch (Exception e){
@@ -61,7 +70,82 @@ public class MapDraw{
         
     }
 
+    public void initialiseCanvas() {
+		mainCanvas = new Canvas(640,640);
+		currentCanvas = new Canvas(640, 640);
+		tileType = new int[TotalMapHeight][TotalMapWidth];
+		cursor = new Cursors();
+
+		for(int row = 0; row < TotalMapHeight; row++) {
+			for(int col = 0; col < TotalMapWidth; col++) {
+				if(map[row][col] == 0) continue;
+
+				int rc = map[row][col];
+
+				int r = rc / tilesWidth;
+				int c = rc % tilesWidth;
+
+				if (r == 0) {
+					mainCanvas.getGraphicsContext2D().drawImage(
+							tileset, c * tileSize, 0, tileSize, tileSize,
+							col * tileSize, row * tileSize, tileSize, tileSize);
+					currentCanvas.getGraphicsContext2D().drawImage(
+							tileset, c * tileSize, 0, tileSize, tileSize,
+							col * tileSize, row * tileSize, tileSize, tileSize);
+					tileType[row][col] = 0;
+				}
+				else {
+					mainCanvas.getGraphicsContext2D().drawImage(
+							tileset, c * tileSize, tileSize, tileSize, tileSize,
+							col * tileSize, row * tileSize, tileSize, tileSize);
+					currentCanvas.getGraphicsContext2D().drawImage(
+							tileset, c * tileSize, tileSize, tileSize, tileSize,
+							col * tileSize, row * tileSize, tileSize, tileSize);
+					tileType[row][col] = 1;
+				}
+
+			}
+		}
+		mapImage = mainCanvas.snapshot(null, null);
+		drawCursorToMainCanvas();
+		currentCanvas.getGraphicsContext2D().drawImage(
+				cursor.cursorsOption[cursor.defaultCursor], 0, 0, tileSize, tileSize,
+				 cursor.cursorColumns * tileSize, cursor.cursorRows * tileSize,
+				 tileSize, tileSize);
+		mapImage = mainCanvas.snapshot(null, null);
+	}
     
+
+    public void zoomIn() {		//zoomIn
+		if (magnification < 4) {
+
+			magnification *= 2;
+			TotalMapWidth /= 2;
+			TotalMapHeight /= 2;
+			setOffset(magnification);
+
+			validCursor();
+			updateCurrentCanvas();
+		}
+    }
+    
+    public void zoomOut() {   //zoomOut
+		if (magnification > 1) {
+
+			magnification /= 2;
+			TotalMapWidth *= 2;
+			TotalMapHeight *= 2;
+			setOffset(magnification);
+
+			validCursor();
+			updateCurrentCanvas();
+		}
+    }
+    
+
+
+
+
                                              
 }
     

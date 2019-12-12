@@ -31,13 +31,17 @@ public class MainController {
 	@FXML
 	private Button boatButton;
 	
+	//A flag variable for axe and boat when handling requests
+	public int flag;
 	ImageView axeImage = new ImageView();
 	ImageView boatImage = new ImageView();
 	private Image axeIcon = SwingFXUtils.toFXImage(Content.ITEMS[1][1], null);
 	private Image boatIcon = SwingFXUtils.toFXImage(Content.ITEMS[1][0], null);
-	public int flag;
 	
-	//exporting icons into controller from contents
+	/**
+	* This method assigns Icons from ImageView to its respective buttons in .fxml file.
+	* @return Nothing
+	*/
 	private void makeIcons() {
 		axeImage.setImage(axeIcon);
 		boatImage.setImage(boatIcon);
@@ -50,7 +54,10 @@ public class MainController {
 		makeIcons();
 	}
 	
-	//handles axeButton when clicked
+	/**
+	* This method includes flags to determine whether the "axe" is successfully placed and displays its coordinates.
+	* @return Nothing
+	*/
 	@FXML
 	public void axeButtonPressed() {
 		MapMain.tileMapViewer.turningOnCursorColor();
@@ -71,7 +78,10 @@ public class MainController {
 		}
 	}
 	
-	//handles boatButton when clicked
+	/**
+	* This method includes flags to determine whether the "boat" is successfully placed and displays is coordinates.
+	* @return Nothing
+	*/
 	@FXML
 	public void boatButtonPressed() {
 		MapMain.tileMapViewer.turningOnCursorColor();		
@@ -92,13 +102,21 @@ public class MainController {
 		}
 	}
 	
+	/**
+	* Upon clicking "Start Game" button, the stage is hidden and the main game starts with changes made.
+	* @return Nothing
+	*/
 	@FXML
 	public void startGameButtonPressed() {
 		MapMain.primaryStage.hide();
 		Game.main(null);
 	}
 	
-	//each relevant key pressed by user will be reflected upon this method
+	/**
+	* This method takes in user's keyboard input and process its respective functions.
+	* @param event Event signal from a key press.
+	* @return Nothing
+	*/
 	@FXML
 	private void keyActions(KeyEvent event) {
 		if (MapMain.tileMapViewer.cursorColor == false) {
@@ -128,7 +146,7 @@ public class MainController {
 	    	updateCursorCoordinates();
 	    }
 	    else if (event.getCode() == KeyCode.O) {
-	    	MapMain.tileMapViewer.turningOnCursorColor();		//turningOnCursorColor
+	    	MapMain.tileMapViewer.turningOnCursorColor();
 	    	statusBar.setText("Placing Axe...");
 	    }
 	    else if (event.getCode() == KeyCode.P) {
@@ -136,12 +154,17 @@ public class MainController {
 	    	statusBar.setText("Placing Boat...");
 	    }
 	}
-	//updates statusBar and coordinates of tools based on user's actions
+
+	/**
+	* This method updates values after a key has been released.
+	* @param event Event signal after a key press.
+	* @return Nothing
+	*/
 	@FXML
 	private void updateFactors(KeyEvent event) {
 		int flag;
 		if (event.getCode() == KeyCode.O) {
-			flag = MapMain.tileMapViewer.settingAxe();		//handleSetAxeRequest
+			flag = MapMain.tileMapViewer.settingAxe();
 			if (flag == 1) {
 				bumbleAxe();
 			}
@@ -174,7 +197,11 @@ public class MainController {
 			}
 		}
 	}
-	//Displays a guide on how to use Map Viewer
+
+	/**
+	* Menu item "Help" displays a list of information.
+	* @return Nothing
+	*/
 	@FXML private void helpInfo() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Instructions");
@@ -186,7 +213,11 @@ public class MainController {
 		alert.showAndWait();
 		alert.setOnCloseRequest(event -> {alert.close();});
 	}
-	//Alert error upon wrong placement of Axe
+	
+	/**
+	* Alerts the user upon invalid placement of "Axe"
+	* @return Nothing
+	*/
 	private void bumbleAxe() {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Placement error");
@@ -195,7 +226,11 @@ public class MainController {
 		alert.showAndWait();
 		alert.setOnCloseRequest(event -> {alert.close();});
 	}
-	//Alert error upon wrong placement of Boat
+
+	/**
+	* Alerts the user upon invalid placement of "Boat"
+	* @return Nothing
+	*/
 	private void bumbleBoat() {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Placement error");
@@ -204,7 +239,11 @@ public class MainController {
 		alert.showAndWait();
 		alert.setOnCloseRequest(event -> {alert.close();});
 	}
-	//Updates cursor coordinates every cursor move
+	
+	/**
+	* Everytime the user moves the cursor, this method updates the coordinates and displays it
+	* @return Nothing
+	*/
 	private void updateCursorCoordinates() {				
 		cursorCoordinates.setText("(" + MapMain.tileMapViewer.cursor.cursorColumns + ", " + MapMain.tileMapViewer.cursor.cursorRows + ")");
 	}

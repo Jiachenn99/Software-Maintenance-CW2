@@ -28,7 +28,10 @@ Navigate to `MapViewer-top` -> `MapViewer` -> `bin` with the command below:
 ```
 
 ### Launching the application
-Double clicking `MapViewer.jar` should open up a window that displays the map.
+```
+> java -jar MapViewer.jar
+```
+should open up a window that displays the map.
 
 ### Usage Instructions
 Movement - `W`, `A`, `S`, `D` corresponds to Up, Left, Right, Down  
